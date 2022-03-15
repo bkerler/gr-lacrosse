@@ -1,0 +1,14 @@
+id: TX29U
+label: TX29U
+category: '[lacrosse]'
+
+inputs:
+-   domain: message
+    id: in
+    optional: false
+
+templates:
+    imports: import gnuradio.lacrosse as lacrosse
+    make: lacrosse.TX29U()
+
+file_format: 1

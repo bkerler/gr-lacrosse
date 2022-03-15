@@ -13,7 +13,7 @@ from gnuradio import gr
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
-import lacrosse
+import gnuradio.lacrosse as lacrosse
 import math
 import osmosdr
 import reveng
@@ -51,7 +51,7 @@ class rtl_lacrosse(gr.top_block):
         self.rtlsdr_source_0.set_antenna("", 0)
         self.rtlsdr_source_0.set_bandwidth(0, 0)
           
-        self.reveng_pattern_dump_0 = reveng.pattern_dump([1,0]*16, 24+8+8+8+8+16, "%Y-%m-%d %H:%M:%S,%[bits]", False, "", False)
+        self.reveng_pattern_dump = reveng.pattern_dump([1,0]*16, 24+8+8+8+8+16, "%Y-%m-%d %H:%M:%S,%[bits]", False, "", False)
         self.rational_resampler_xxx_0 = filter.rational_resampler_fff(
                 interpolation=4,
                 decimation=58,
@@ -69,10 +69,10 @@ class rtl_lacrosse(gr.top_block):
         ##################################################
         # Connections
         ##################################################
-        self.msg_connect((self.reveng_pattern_dump_0, 'out'), (self.lacrosse_TX29U_0, 'in'))    
+        self.msg_connect((self.reveng_pattern_dump, 'out'), (self.lacrosse_TX29U_0, 'in'))    
         self.connect((self.analog_quadrature_demod_cf_0, 0), (self.rational_resampler_xxx_0, 0))    
         self.connect((self.dc_blocker_xx_0, 0), (self.digital_binary_slicer_fb_0, 0))    
-        self.connect((self.digital_binary_slicer_fb_0, 0), (self.reveng_pattern_dump_0, 0))    
+        self.connect((self.digital_binary_slicer_fb_0, 0), (self.reveng_pattern_dump, 0))    
         self.connect((self.digital_clock_recovery_mm_xx_0, 0), (self.dc_blocker_xx_0, 0))    
         self.connect((self.low_pass_filter_0, 0), (self.analog_quadrature_demod_cf_0, 0))    
         self.connect((self.rational_resampler_xxx_0, 0), (self.digital_clock_recovery_mm_xx_0, 0))    

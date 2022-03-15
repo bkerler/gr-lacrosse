@@ -18,5 +18,5 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    lacrosse_TX29U.xml DESTINATION share/gnuradio/grc/blocks
+    lacrosse_TX29U.block.yml DESTINATION share/gnuradio/grc/blocks
 )

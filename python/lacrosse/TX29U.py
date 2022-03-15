@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # 
 # Copyright 2015 <+YOU OR YOUR COMPANY+>.
@@ -51,7 +51,7 @@ class TX29U(gr.sync_block):
         msg = msg[1]
 
         bytez = bytearray()
-        for i in xrange(7):
+        for i in range(7):
             bytez.append(int(msg[8*i:8*(i+1)], 2))
 
         dev_id = bytez[0:3]
@@ -63,25 +63,25 @@ class TX29U(gr.sync_block):
         temp_c = -40 + (10 * temp_scale) + (temp * 0.0646332607)
         temp_f = temp_c * 1.8 + 32
 
-        print datetime.datetime.now()
-        print 'Packet:  ', str(bytez).encode('hex')
-        print
-        print 'ID?      ', str(dev_id).encode('hex')
-        print 'Cfg?      0x%02x (Temp Scale: %d)' % (cfg, cfg & 0x0f)
-        print 'Temp:     0x%02x (%3d)' % (temp, temp)
-        print 'Humidity? 0x%02x (%3d)' % (hum, hum)
-        print 'Checksum: 0x%02x (%3d)' % (csum, csum),
+        print(datetime.datetime.now())
+        print('Packet:  ', str(bytez).encode('hex'))
+        print()
+        print('ID?      ', str(dev_id).encode('hex'))
+        print('Cfg?      0x%02x (Temp Scale: %d)' % (cfg, cfg & 0x0f))
+        print('Temp:     0x%02x (%3d)' % (temp, temp))
+        print('Humidity? 0x%02x (%3d)' % (hum, hum))
+        print('Checksum: 0x%02x (%3d)' % (csum, csum), end=' ')
 
         if crcmod is None:
-            print '[ crcmod not present ]'
+            print('[ crcmod not present ]')
         elif csum == self.calc_checksum(str(bytez[0:6])):
-            print '[ OK ]'
+            print('[ OK ]')
         else:
-            print '[FAIL]'
+            print('[FAIL]')
 
-        print
-        print '%3.1f C / %3.1f F' % (temp_c, temp_f)
-        print '-'*30
+        print()
+        print('%3.1f C / %3.1f F' % (temp_c, temp_f))
+        print('-'*30)
 
     def work(self, input_items, output_items):
         return 0

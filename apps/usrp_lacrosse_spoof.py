@@ -31,7 +31,7 @@ from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import PyQt4.Qwt5 as Qwt
-import lacrosse
+import gnuradio.lacrosse as lacrosse
 import mac
 import math
 import pmt
@@ -121,7 +121,7 @@ class usrp_lacrosse_spoof(gr.top_block, Qt.QWidget):
         self.uhd_usrp_sink_0.set_center_freq(915e6-25e3, 0)
         self.uhd_usrp_sink_0.set_gain(output_gain, 0)
         self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
-        self.reveng_pattern_dump_0 = reveng.pattern_dump([1,0]*16, 24+8+8+8+8+16, "%Y-%m-%d %H:%M:%S,%[bits]", False, "", False)
+        self.reveng_pattern_dump = reveng.pattern_dump([1,0]*16, 24+8+8+8+8+16, "%Y-%m-%d %H:%M:%S,%[bits]", False, "", False)
         self.rational_resampler_xxx_0 = filter.rational_resampler_fff(
                 interpolation=4,
                 decimation=58,
@@ -199,7 +199,7 @@ class usrp_lacrosse_spoof(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_0, 'pdus'), (self.blocks_pdu_to_tagged_stream_0, 'pdus'))    
-        self.msg_connect((self.reveng_pattern_dump_0, 'out'), (self.lacrosse_TX29U_0, 'in'))    
+        self.msg_connect((self.reveng_pattern_dump, 'out'), (self.lacrosse_TX29U_0, 'in'))    
         self.connect((self.analog_quadrature_demod_cf_0, 0), (self.qtgui_time_sink_x_0, 0))    
         self.connect((self.analog_quadrature_demod_cf_0, 0), (self.rational_resampler_xxx_0, 0))    
         self.connect((self.blocks_add_const_vxx_0, 0), (self.blocks_vco_c_0, 0))    
@@ -209,7 +209,7 @@ class usrp_lacrosse_spoof(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_rotator_cc_0, 0), (self.low_pass_filter_0, 0))    
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_char_to_float_0, 0))    
         self.connect((self.blocks_vco_c_0, 0), (self.mac_burst_tagger_0, 0))    
-        self.connect((self.digital_binary_slicer_fb_0, 0), (self.reveng_pattern_dump_0, 0))    
+        self.connect((self.digital_binary_slicer_fb_0, 0), (self.reveng_pattern_dump, 0))    
         self.connect((self.digital_clock_recovery_mm_xx_0, 0), (self.digital_binary_slicer_fb_0, 0))    
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.blocks_add_const_vxx_0, 0))    
         self.connect((self.low_pass_filter_0, 0), (self.analog_quadrature_demod_cf_0, 0))    
