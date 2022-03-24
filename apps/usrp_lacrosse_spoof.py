@@ -31,6 +31,7 @@ from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import PyQt4.Qwt5 as Qwt
+from gnuradio.fft import window
 import gnuradio.lacrosse as lacrosse
 import mac
 import math
@@ -172,7 +173,7 @@ class usrp_lacrosse_spoof(gr.top_block, Qt.QWidget):
         self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
         self.mac_burst_tagger_0 = mac.burst_tagger('packet_len', 8*58, 4096, 4096)
         self.low_pass_filter_0 = filter.fir_filter_ccf(1, firdes.low_pass(
-        	1, samp_rate, 100e3, 50e3, firdes.WIN_HAMMING, 6.76))
+        	1, samp_rate, 100e3, 50e3, window.WIN_HAMMING, 6.76))
         self.lacrosse_TX29U_0 = lacrosse.TX29U()
         self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_fff(58, ([1]*58))
         self.interp_fir_filter_xxx_0.declare_sample_delay(0)
@@ -233,7 +234,7 @@ class usrp_lacrosse_spoof(gr.top_block, Qt.QWidget):
         self.uhd_usrp_source_0.set_samp_rate(self.samp_rate)
         self.fosphor_qt_sink_c_0.set_frequency_range(0, self.samp_rate)
         self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
-        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 100e3, 50e3, firdes.WIN_HAMMING, 6.76))
+        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 100e3, 50e3, window.WIN_HAMMING, 6.76))
 
     def get_output_gain(self):
         return self.output_gain
