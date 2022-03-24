@@ -13,6 +13,7 @@ from gnuradio import filter
 from gnuradio import gr
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
+from gnuradio.fft import window
 from optparse import OptionParser
 import gnuradio.lacrosse as lacrosse
 import math
@@ -42,7 +43,7 @@ class file_lacrosse(gr.top_block):
                 fractional_bw=None,
         )
         self.low_pass_filter_0 = filter.fir_filter_ccf(1, firdes.low_pass(
-        	1, samp_rate, 200e3, 100e3, firdes.WIN_HAMMING, 6.76))
+        	1, samp_rate, 200e3, 100e3, window.WIN_HAMMING, 6.76))
         self.lacrosse_TX29U_0 = lacrosse.TX29U()
         self.digital_clock_recovery_mm_xx_0 = digital.clock_recovery_mm_ff(4, 0.25*0.175*0.175, 0.5, 0.175, 0.005)
         self.digital_binary_slicer_fb_0 = digital.binary_slicer_fb()
@@ -85,7 +86,7 @@ class file_lacrosse(gr.top_block):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.blocks_rotator_cc_0.set_phase_inc(2*math.pi*self.freq_offset/self.samp_rate)
-        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 200e3, 100e3, firdes.WIN_HAMMING, 6.76))
+        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 200e3, 100e3, window.WIN_HAMMING, 6.76))
 
 
 if __name__ == '__main__':
